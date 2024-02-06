@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-
+import { UseDispatch,useDispatch,useSelector } from 'react-redux';
+import { register } from '../features/auth/authSlice';
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -14,6 +15,9 @@ function Register() {
   });
 
   const { first_name, last_name, phone, email, password, re_password } = formData;
+  const dispatch = useDispatch()
+  
+  const {user,isLoading , isError , isSuccess , message }=useSelector((state)=> state.auth)
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -36,9 +40,12 @@ function Register() {
             first_name,
             last_name,
             email,
+            phone,
             password,
             re_password
         }
+
+        dispatch(register(userData))
         
     }
 }
