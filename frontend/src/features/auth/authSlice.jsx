@@ -2,7 +2,7 @@ import { createSlice , createAsyncThunk } from "@reduxjs/toolkit";
 
 
 const initialState = {
-    user: user ? user : null,
+    user:null,
     userInfo: {},
     isError: false,
     isSuccess: false,
@@ -17,7 +17,7 @@ export const register = createAsyncThunk(
     }
 )
 
-export const auth = createSlice({
+export const authSlice = createSlice({
     name:"auth",
     initialState,
     reducers:{

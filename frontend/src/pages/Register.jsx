@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { UseDispatch,useDispatch,useSelector } from 'react-redux';
+import {useDispatch,useSelector } from 'react-redux';
 import { register } from '../features/auth/authSlice';
 
 function Register() {
