@@ -1,16 +1,71 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React , {useState , useEffect }from 'react';
+import { Link,useNavigate } from 'react-router-dom';
+import Spinner from '../components/Spinner';
+import { useDispatch, useSelector } from 'react-redux'
+import { login, reset} from '../features/auth/authSlice'
+import { toast } from 'react-toastify'
+
 
 function Login() {
+
+    const [formData, setFormData] = useState({
+      "email": "",
+      "password": "",
+  })
+
+  const { email, password } = formData
+
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const { user, isLoading, isError, isSuccess, message } = useSelector((state) => state.auth)
+
+  const handleChange = (e) => {
+      setFormData((prev) => ({
+          ...prev,
+          [e.target.name]: e.target.value
+      })
+      )
+    }
+
+    const handleSubmit = (e) => {
+      e.preventDefault()
+
+      const userData = {
+          email,
+          password,
+      }
+      dispatch(login(userData))
+  }
+
+
+  useEffect(() => {
+      if (isError) {
+          toast.error(message)
+      }
+
+      if (isSuccess || user) {
+          navigate("/userpage")
+      }
+
+      dispatch(reset())
+     
+
+  }, [isError, isSuccess, user, navigate, dispatch])
+
+
+
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-900 text-white">
-      <form className="bg-black/40 backdrop-blur-3xl p-8 rounded-lg w-full sm:max-w-md">
+      <form onSubmit={handleSubmit} className="bg-black/40 backdrop-blur-3xl p-8 rounded-lg w-full sm:max-w-md">
         <h2 className="text-2xl font-bold mb-6">Login</h2>
         <div className="mb-4">
           <label htmlFor="email" className="block text-sm font-semibold text-gray-200 mb-2">Email</label>
           <input
             type="email"
-            id="email"
+            name="email"
+            onChange={handleChange}
+            value={email}
             className="w-full rounded py-2 px-3 bg-transparent border border-white/10 text-white/80 focus:border-white/25 focus:outline-0 focus:ring-0"
             required
           />
@@ -19,7 +74,9 @@ function Login() {
           <label htmlFor="password" className="block text-sm font-semibold text-gray-200 mb-2">Password</label>
           <input
             type="password"
-            id="password"
+            name="password"
+            onChange={handleChange}
+            value={password}
             className="w-full rounded py-2 px-3 bg-transparent border border-white/10 text-white/80 focus:border-white/25 focus:outline-0 focus:ring-0"
             required
           />

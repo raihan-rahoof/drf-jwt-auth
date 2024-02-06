@@ -9,6 +9,7 @@ import Nav from './components/navigation/Nav';
 import ResetPassword from './pages/ResetPassword';
 import ActivatePage from './pages/ActivatePage';
 import NotFoundpage from './pages/NotFoundpage';
+import UserPage from './pages/UserPage';
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
           <Route path="/"  element={<Home/>} />
           <Route path="/login" element={<Login/>} />
           <Route path="/register" element={<Register/>} />
+          <Route path="/userpage" element={<UserPage/>} />
           <Route path="/resetpassword" element={<ResetPassword/>} />
           <Route path="/activate/:uid/:token" element={<ActivatePage/>} />
           <Route path="*" element={<NotFoundpage/>} />
