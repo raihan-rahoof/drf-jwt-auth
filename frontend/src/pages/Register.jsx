@@ -2,8 +2,9 @@ import React, { useState,useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import {useDispatch,useSelector } from 'react-redux';
-import { register } from '../features/auth/authSlice';
+import { register , reset } from '../features/auth/authSlice';
 import { useNavigate } from 'react-router-dom';
+import Spinner from '../components/Spinner';
 
 
 function Register() {
@@ -62,12 +63,17 @@ useEffect(() => {
       toast.success("An activation email has been sent to your email. Please check your email")
   }
 
-})
+  dispatch(reset())
+
+}, [isError, isSuccess, user, navigate, dispatch])
     
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-900 text-white">
       <form className="bg-black/40 backdrop-blur-3xl p-8 rounded-lg w-full sm:max-w-md" onSubmit={handleSubmit}>
         <h2 className="text-2xl font-bold mb-6">Register</h2>
+
+        
+
         <div className="mb-4">
           <label htmlFor="first_name" className="block text-sm font-semibold text-gray-200 mb-2">
             First Name
@@ -146,12 +152,18 @@ useEffect(() => {
             value={re_password}
           />
         </div>
+
+       {isLoading ? (<Spinner />) : (
         <button
-          type="submit"
-          className="w-full inline-flex items-center justify-center px-6 py-2 backdrop-blur-2xl bg-white/20 text-white rounded-lg transition-all duration-500 group hover:bg-blue-600/60 hover:text-white"
-        >
-          Register
-        </button>
+        type="submit"
+        className="w-full inline-flex items-center justify-center px-6 py-2 backdrop-blur-2xl bg-white/20 text-white rounded-lg transition-all duration-500 group hover:bg-blue-600/60 hover:text-white"
+      >
+        Register
+      </button>
+       )}
+
+
+        
         <p className="mt-5 text-gray-200 ml-16">
           Already have an account? <Link to="/login" href="#" className="text-blue-500 hover:underline">Login</Link>
         </p>

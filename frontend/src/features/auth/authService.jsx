@@ -23,6 +23,19 @@ const register = async (userData) => {
 
 }
 
-const authService = {register}
+const activate = async (userData) => {
+    const config = {
+        headers: {
+            "Content-type": "application/json"
+        }
+    }
+
+    const response = await axios.post(ACTIVATE_URL, userData, config)
+
+    return response.data
+}
+
+
+const authService = {register,activate}
 
 export default authService

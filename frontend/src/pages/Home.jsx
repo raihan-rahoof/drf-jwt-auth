@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import Spinner from '../components/Spinner'
 
 function Home() {
   return (
@@ -10,7 +11,9 @@ function Home() {
         <p className="text-lg mb-8">Explore the amazing content we have for you.</p>
         <Link to="/register" className="bg-blue-500 text-white px-4 py-2 rounded-full transition duration-300 hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300">Get Started</Link>
       </div>
+     
     </div>
+   
     </div>
   )
 }
