@@ -5,6 +5,7 @@ import {useDispatch,useSelector } from 'react-redux';
 import { register , reset } from '../features/auth/authSlice';
 import { useNavigate } from 'react-router-dom';
 import Spinner from '../components/Spinner';
+import validator from 'validator';
 
 
 function Register() {
@@ -15,19 +16,24 @@ function Register() {
     email: '',
     password: '',
     re_password: '',
+    profilePicture: null,
   });
 
 
-  const { first_name, last_name, phone, email, password, re_password } = formData;
+  const { first_name, last_name, phone, email, password, re_password ,profilePicture} = formData;
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const {user,isLoading , isError , isSuccess , message }=useSelector((state)=> state.auth)
 
+
+
   const handleChange = (e) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
+    if (e.target.name === 'profilePicture') {
+      setFormData({ ...formData, [e.target.name]: e.target.files[0] });
+    } else {
+      setFormData({ ...formData, [e.target.name]: e.target.value });
+    }
+
     console.log(formData);
   };
 
@@ -39,6 +45,23 @@ function Register() {
         toast.error("Passwords do not match",{
           position:'top-center',
         })
+    }else if(password.length < 8){
+        toast.error("Password must 8 characters",{
+          position:'top-center',
+      })
+    }else if(!validator.isEmail(email)){
+      toast.error("Provide a valid Email",{
+        position:'top-center',
+      })
+    }else if(!validator.isAlpha(first_name) || !validator.isAlpha(last_name) ){
+      toast.error("Only use characters in Names",{
+        position:'top-center',
+      })
+    }else if (!validator.isMobilePhone(phone, 'en-US')) {
+      toast.error("Please provide a valid phone number", {
+          position: 'top-center',
+      });
+  
     } else {
         const userData = {
             first_name,
@@ -46,7 +69,8 @@ function Register() {
             email,
             phone,
             password,
-            re_password
+            re_password,
+            profilePicture,
         }
 
         dispatch(register(userData))
@@ -152,6 +176,18 @@ useEffect(() => {
             value={re_password}
           />
         </div>
+        <div className="mb-4">
+          <label htmlFor="re_password" className="block text-sm font-semibold text-gray-200 mb-2">
+            Profile Picture
+          </label>
+          <input className="w-full rounded py-2 px-3 bg-transparent border border-white/10 text-white/80 focus:border-white/25 focus:outline-0 focus:ring-0"
+           type="file" accept='image/' name="profilePicture" onChange={handleChange} />
+        </div>
+        
+
+
+       
+
 
        {isLoading ? (<Spinner />) : (
         <button

@@ -46,7 +46,17 @@ const logout = () => {
 }
 
 
+const getUserInfo = async (accessToken) => {
+    const config = {
+        headers: {
+            "Authorization": `Bearer ${accessToken}`
+        }
+    }
 
+    const response = await axios.get(GET_USER_INFO, config)
+
+    return response.data
+}
 
 
 const activate = async (userData) => {
@@ -62,6 +72,6 @@ const activate = async (userData) => {
 }
 
 
-const authService = {register,activate,login,logout}
+const authService = {register,activate,login,logout,getUserInfo}
 
 export default authService

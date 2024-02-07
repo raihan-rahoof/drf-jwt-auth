@@ -2,7 +2,7 @@ import React , {useState , useEffect }from 'react';
 import { Link,useNavigate } from 'react-router-dom';
 import Spinner from '../components/Spinner';
 import { useDispatch, useSelector } from 'react-redux'
-import { login, reset} from '../features/auth/authSlice'
+import { getUserInfo, login, reset} from '../features/auth/authSlice'
 import { toast } from 'react-toastify'
 
 
@@ -49,6 +49,7 @@ function Login() {
       }
 
       dispatch(reset())
+      dispatch(getUserInfo())
      
 
   }, [isError, isSuccess, user, navigate, dispatch])
